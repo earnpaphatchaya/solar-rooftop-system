@@ -6,24 +6,21 @@
 <title>ระบบประเมินศักยภาพโซลาร์รูฟท็อปสำหรับพื้นที่ประเทศไทย | SunJaa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* เปลี่ยนชุดสีเป็นโทนสว่าง พาสเทล */
-    --bg: #FFFDF4;         /* พื้นหลังหลักสีเหลืองพาสเทลอ่อนๆ */
-    --bg-alt: #FFF7DA;     /* พื้นหลังรองสีเหลืองพาสเทลเข้มขึ้นนิดหน่อย */
-    --panel: #FFFFFF;      /* สีพื้นหลังการ์ดหรือกล่องต่างๆ เป็นสีขาว */
-    --panel-line: #E8DCC4; /* สีเส้นขอบ */
-    --gold: #E59F00;       /* สีเหลืองทองสำหรับจุดเด่น (ปรับให้เข้มขึ้นเพื่อให้อ่านง่ายบนพื้นสว่าง) */
-    --amber: #D68F00;      
-    --teal: #199A8E;       /* สีเขียวอมฟ้า (ปรับให้เข้มขึ้น) */
-    --clay: #C1502E;       /* สีแดงดินเผา */
-    
-    /* ตัวหนังสือเปลี่ยนเป็นโทนเข้ม */
-    --paper: #111111;      /* สีดำสนิท สำหรับหัวข้อสำคัญ */
-    --text: #333333;       /* สีเทาเข้มเกือบดำ สำหรับเนื้อหาทั่วไป */
-    --text-dim: #555555;   /* สีเทากลาง สำหรับเนื้อหารอง */
-    --text-dimmer: #777777;/* สีเทาอ่อน สำหรับรายละเอียดเล็กๆ */
+    --bg: #FFFDF4;
+    --bg-alt: #FFF7DA;
+    --panel: #FFFFFF;
+    --panel-line: #E8DCC4;
+    --gold: #E59F00;
+    --amber: #D68F00;
+    --teal: #199A8E;
+    --clay: #C1502E;
+    --paper: #111111;
+    --text: #333333;
+    --text-dim: #555555;
+    --text-dimmer: #777777;
     --radius: 4px;
   }
   *{box-sizing:border-box;}
@@ -36,13 +33,14 @@
     margin:0;
     background:var(--bg);
     color:var(--text);
-    font-family:'IBM Plex Sans Thai', sans-serif;
+    /* เปลี่ยนฟอนต์หลักเป็น Sarabun */
+    font-family:'Sarabun', sans-serif;
     font-weight:400;
     line-height:1.75;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,h4{
-    font-family:'Chakra Petch','IBM Plex Sans Thai',sans-serif;
+    font-family:'Chakra Petch','Sarabun',sans-serif;
     font-weight:600;
     margin:0;
     letter-spacing:0.01em;
@@ -644,7 +642,7 @@
           <div class="b-num">02</div>
           <div>
             <h4>ภาคธุรกิจ</h4>
-            <p>ช่วยลดต้นทุนในการแสวงหาลูกค้ารายย่อยของผู้ประกอบการ และช่วยภาระค่าใช้จ่ายขององค์กรในการจัดส่งทีมวิศวกรหรือช่างเทคนิคลงพื้นที่สำรวจหน้างานเบื้องต้น</p>
+            <p>ช่วยลดต้นทุนในการหาลูกค้าและประหยัดเวลาลงพื้นที่สำรวจหน้างานจริง</p>
           </div>
         </div>
         <div class="benefit-row">
@@ -686,7 +684,7 @@
       อาจารย์ที่ปรึกษา ผศ.ดร.ศุภชัย วรพจน์พิศุทธิ์
     </div>
     <div class="foot-col">
-      <a href="#top" class="back-top">↑ กลับขึ้นด้านบน</a>
+    <a href="#top" class="back-top">↑ กลับขึ้นด้านบน</a>
     </div>
   </div>
 </footer>
@@ -734,7 +732,7 @@
         var idx = Math.floor(Math.random()*total);
         if(used.has(idx)) continue;
         used.add(idx);
-        cells[idx].classList.add(Math.random() > 0.4 ? 'hit' : 'hit2');
+      				cells[idx].classList.add(Math.random() > 0.4 ? 'hit' : 'hit2');
       }
     }
     paint();
@@ -744,3 +742,4 @@
 
 </body>
 </html>
+
