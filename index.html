@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบประเมินศักยภาพโซลาร์รูฟท็อปสำหรับพื้นที่ประเทศไทย | SunJaa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a111f;
+    --bg-alt:#0f1a2c;
+    --panel:#152238;
+    --panel-line:#22334f;
+    --gold:#ffb627;
+    --amber:#f4a300;
+    --teal:#2ec4b6;
+    --clay:#c1502e;
+    --paper:#f5efe3;
+    --text:#e9e6dd;
+    --text-dim:#93a1b8;
+    --text-dimmer:#5f7089;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans Thai', sans-serif;
+    font-weight:400;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Chakra Petch','IBM Plex Sans Thai',sans-serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; }
+  img{max-width:100%; display:block;}
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,17,31,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--panel-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Chakra Petch',sans-serif;
+    font-weight:700; font-size:18px; letter-spacing:0.06em;
+    text-decoration:none;
+  }
+  .brand .dot{
+    width:10px; height:10px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 10px 2px rgba(255,182,39,0.7);
+  }
+  nav.links{ display:flex; gap:28px; font-size:13.5px; }
+  nav.links a{
+    text-decoration:none; color:var(--text-dim);
+    letter-spacing:0.03em;
+    padding:4px 0; border-bottom:1px solid transparent;
+    transition:color .2s, border-color .2s;
+  }
+  nav.links a:hover{ color:var(--gold); border-color:var(--gold); }
+  .nav-toggle{ display:none; }
+  @media (max-width:900px){
+    nav.links{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:96px 0 84px;
+    border-bottom:1px solid var(--panel-line);
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(255,182,39,0.12), transparent 60%),
+      var(--bg);
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
+  }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--teal);
+    border:1px solid rgba(46,196,182,0.35);
+    background:rgba(46,196,182,0.06);
+    padding:6px 12px; border-radius:2px;
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(30px, 4.2vw, 46px);
+    line-height:1.22;
+    color:var(--paper);
+  }
+  .hero h1 span{ color:var(--gold); }
+  .hero .en-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px; color:var(--text-dimmer);
+    margin-top:14px; letter-spacing:0.02em;
+  }
+  .hero p.lead{
+    margin-top:22px; font-size:16px; color:var(--text-dim); max-width:52ch;
+  }
+  .credits{
+    margin-top:32px; font-size:13.5px; color:var(--text-dimmer);
+    border-top:1px solid var(--panel-line); padding-top:20px;
+    display:grid; gap:6px;
+  }
+  .credits b{ color:var(--text-dim); font-weight:500; }
+  .cta-row{ margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Chakra Petch',sans-serif; font-weight:600; font-size:14px;
+    letter-spacing:0.03em;
+    padding:12px 22px; border-radius:2px; text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{
+    background:var(--gold); color:#12100a;
+    box-shadow:0 0 0 1px rgba(255,182,39,0.4);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 22px -8px rgba(255,182,39,0.6); }
+  .btn-ghost{
+    color:var(--text-dim); border:1px solid var(--panel-line);
+  }
+  .btn-ghost:hover{ color:var(--paper); border-color:var(--text-dimmer); }
+
+  /* scan visual */
+  .scan-box{
+    position:relative;
+    aspect-ratio:1/1;
+    border:1px solid var(--panel-line);
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .roof-grid{
+    position:absolute; inset:0;
+    display:grid; grid-template-columns:repeat(8,1fr); grid-template-rows:repeat(8,1fr);
+  }
+  .roof-grid .cell{
+    border:1px solid rgba(255,255,255,0.05);
+    transition:background .4s ease;
+  }
+  .roof-grid .cell.hit{ background:rgba(46,196,182,0.28); }
+  .roof-grid .cell.hit2{ background:rgba(255,182,39,0.22); }
+  .scan-line{
+    position:absolute; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    box-shadow:0 0 16px 3px rgba(255,182,39,0.7);
+    animation:scan 3.6s ease-in-out infinite;
+  }
+  @keyframes scan{
+    0%{ top:0%; opacity:0; }
+    8%{ opacity:1; }
+    50%{ top:100%; opacity:1; }
+    58%{ opacity:0; }
+    100%{ top:100%; opacity:0; }
+  }
+  .scan-label{
+    position:absolute; bottom:10px; left:10px;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px;
+    color:var(--teal); letter-spacing:0.06em;
+    background:rgba(10,17,31,0.7); padding:4px 8px; border:1px solid rgba(46,196,182,0.3);
+  }
+  .scan-label2{
+    position:absolute; top:10px; right:10px;
+    font-family:'JetBrains Mono',monospace; font-size:10.5px;
+    color:var(--gold); letter-spacing:0.06em;
+    background:rgba(10,17,31,0.7); padding:4px 8px; border:1px solid rgba(255,182,39,0.3);
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{ padding:88px 0; }
+  section.alt{ background:var(--bg-alt); border-top:1px solid var(--panel-line); border-bottom:1px solid var(--panel-line); }
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--clay); margin-bottom:12px;
+  }
+  .sec-title{ font-size:clamp(24px,3vw,32px); color:var(--paper); max-width:26ch; }
+  .sec-lead{ color:var(--text-dim); max-width:70ch; margin-top:16px; font-size:15.5px; }
+  .two-col{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start; }
+  @media (max-width:880px){ .two-col{ grid-template-columns:1fr; } }
+
+  /* ---------- CHART ---------- */
+  .chart-card{
+    border:1px solid var(--panel-line); background:var(--panel); border-radius:4px; padding:26px 24px 18px;
+  }
+  .chart-title{ font-size:13px; color:var(--text-dim); margin-bottom:18px; letter-spacing:0.02em;}
+  .bars{ display:flex; align-items:flex-end; gap:8px; height:200px; }
+  .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
+  .bar{
+    width:100%; max-width:26px; border-radius:2px 2px 0 0;
+    background:linear-gradient(180deg, var(--gold), var(--amber));
+    position:relative;
+  }
+  .bar-col:nth-child(-n+6) .bar{ background:linear-gradient(180deg, var(--teal), #1c8f85); }
+  .bar-yr{ margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--text-dimmer); }
+  .chart-note{ margin-top:14px; font-size:12px; color:var(--text-dimmer); }
+
+  /* ---------- FACTOR / OBJECTIVE CARDS ---------- */
+  .card-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:40px; }
+  @media (max-width:900px){ .card-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .card-grid{ grid-template-columns:1fr; } }
+  .card{
+    border:1px solid var(--panel-line); background:var(--panel);
+    padding:24px 20px; border-radius:4px;
+    position:relative;
+  }
+  .card .num{
+    font-family:'JetBrains Mono',monospace; color:var(--gold); font-size:12px; letter-spacing:0.08em;
+  }
+  .card h4{ margin-top:12px; font-size:16px; color:var(--paper); }
+  .card p{ margin-top:10px; font-size:13.5px; color:var(--text-dim); }
+
+  .stake-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:36px; }
+  @media (max-width:900px){ .stake-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .stake-grid{ grid-template-columns:1fr; } }
+  .stake{
+    border-top:2px solid var(--teal);
+    background:var(--bg);
+    padding:22px 18px; border-radius:0 0 4px 4px;
+  }
+  .stake:nth-child(2){ border-color:var(--gold); }
+  .stake:nth-child(3){ border-color:var(--clay); }
+  .stake:nth-child(4){ border-color:#7d8fa8; }
+  .stake h4{ font-size:15px; color:var(--paper); }
+  .stake p{ margin-top:8px; font-size:13px; color:var(--text-dim); }
+
+  /* ---------- PIPELINE ---------- */
+  .pipeline{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:44px; position:relative;}
+  @media (max-width:820px){ .pipeline{ grid-template-columns:1fr; } }
+  .pl-step{ padding:0 26px; position:relative; }
+  .pl-step:not(:first-child){ border-left:1px dashed var(--panel-line); }
+  @media (max-width:820px){ .pl-step:not(:first-child){ border-left:none; border-top:1px dashed var(--panel-line); padding:26px 0 0; margin-top:26px;} }
+  .pl-num{
+    font-family:'JetBrains Mono',monospace; font-size:34px; font-weight:700; color:transparent;
+    -webkit-text-stroke:1.4px var(--teal); letter-spacing:0;
+  }
+  .pl-step h4{ margin-top:8px; font-size:17px; color:var(--paper); }
+  .pl-step p{ margin-top:10px; font-size:13.5px; color:var(--text-dim); }
+
+  /* ---------- TESTING FLOW ---------- */
+  .flow{ display:flex; align-items:stretch; gap:0; margin-top:40px; flex-wrap:wrap; }
+  .flow-step{
+    flex:1; min-width:180px;
+    background:var(--panel); border:1px solid var(--panel-line);
+    padding:20px 18px; font-size:13.5px; color:var(--text-dim);
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .flow-step b{ color:var(--paper); font-family:'Chakra Petch',sans-serif; font-weight:600; font-size:14px; }
+  .flow-arrow{
+    display:flex; align-items:center; justify-content:center;
+    width:40px; color:var(--gold); font-size:18px; flex:0 0 auto;
+  }
+  @media (max-width:760px){
+    .flow{ flex-direction:column; }
+    .flow-arrow{ width:100%; height:30px; transform:rotate(90deg); }
+  }
+
+  .phone-note{
+    margin-top:28px; border:1px solid var(--panel-line); background:var(--bg);
+    padding:18px 20px; border-radius:4px; font-size:13.5px; color:var(--text-dim);
+    display:flex; gap:14px; align-items:flex-start;
+  }
+  .phone-note .tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:#12100a; background:var(--gold);
+    padding:3px 8px; border-radius:2px; white-space:nowrap; margin-top:2px;
+  }
+
+  /* ---------- TABLES ---------- */
+  .table-wrap{ overflow-x:auto; margin-top:20px; border:1px solid var(--panel-line); border-radius:4px; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:480px; }
+  thead th{
+    text-align:left; background:var(--panel);
+    font-family:'Chakra Petch',sans-serif; font-weight:600; letter-spacing:0.02em;
+    color:var(--paper); padding:12px 16px; border-bottom:1px solid var(--panel-line);
+    font-size:13px;
+  }
+  tbody td{
+    padding:11px 16px; border-bottom:1px solid var(--panel-line); color:var(--text-dim);
+  }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody td.mono-val{ font-family:'JetBrains Mono',monospace; color:var(--paper); }
+  .table-title{ font-size:13px; color:var(--text-dimmer); margin-top:36px; margin-bottom:0; letter-spacing:0.02em; }
+  .table-title:first-of-type{ margin-top:0; }
+
+  .diff-pos{ color:var(--clay); font-family:'JetBrains Mono',monospace; }
+  .diff-low{ color:var(--teal); font-family:'JetBrains Mono',monospace; }
+
+  /* ---------- RESULT STATS STRIP ---------- */
+  .result-strip{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--panel-line); margin-top:44px; border:1px solid var(--panel-line); }
+  @media (max-width:760px){ .result-strip{ grid-template-columns:repeat(2,1fr); } }
+  .result-cell{ background:var(--bg-alt); padding:24px 20px; }
+  .result-cell .val{ font-family:'JetBrains Mono',monospace; font-size:26px; color:var(--gold); }
+  .result-cell .lab{ margin-top:6px; font-size:12.5px; color:var(--text-dim); }
+
+  /* ---------- FUTURE BOX ---------- */
+  .future-box{
+    margin-top:40px; border-left:3px solid var(--teal);
+    background:linear-gradient(90deg, rgba(46,196,182,0.08), transparent);
+    padding:26px 28px; border-radius:0 4px 4px 0; font-size:14.5px; color:var(--text-dim);
+  }
+  .future-box b{ color:var(--paper); }
+
+  /* ---------- BENEFITS ---------- */
+  .benefit-list{ margin-top:40px; display:grid; gap:14px; }
+  .benefit-row{
+    display:grid; grid-template-columns:56px 1fr; gap:20px;
+    border:1px solid var(--panel-line); background:var(--panel);
+    padding:20px 22px; border-radius:4px; align-items:center;
+  }
+  .benefit-row .b-num{ font-family:'JetBrains Mono',monospace; font-size:22px; color:var(--gold); }
+  .benefit-row h4{ font-size:15.5px; color:var(--paper); }
+  .benefit-row p{ margin-top:6px; font-size:13.5px; color:var(--text-dim); }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding:56px 0 40px; border-top:1px solid var(--panel-line); }
+  .foot-grid{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; }
+  .foot-col{ font-size:13px; color:var(--text-dimmer); max-width:340px; }
+  .foot-col b{ display:block; color:var(--text-dim); font-family:'Chakra Petch',sans-serif; margin-bottom:8px; letter-spacing:0.03em;}
+  .back-top{ font-size:12.5px; color:var(--text-dimmer); text-decoration:none; }
+  .back-top:hover{ color:var(--gold); }
+
+  ::selection{ background:var(--gold); color:#12100a; }
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand"><span class="dot"></span>SUNJAA · โซลาร์รูฟท็อป</a>
+    <nav class="links">
+      <a href="#intro">บทนำ</a>
+      <a href="#objective">วัตถุประสงค์</a>
+      <a href="#design">การออกแบบ</a>
+      <a href="#testing">การทดสอบระบบ</a>
+      <a href="#results">ผลการทดลอง</a>
+      <a href="#benefit">ประโยชน์</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Thammasat School of Engineering · โครงงานวิศวกรรมไฟฟ้า</div>
+        <h1>ระบบประเมิน<span>ศักยภาพโซลาร์รูฟท็อป</span><br>สำหรับพื้นที่ประเทศไทย</h1>
+        <div class="en-title">Solar Rooftop Potential Assessment System for Thailand</div>
+        <p class="lead">ส่งพิกัดบ้านผ่านแชตบอต LINE แล้วให้ระบบวิเคราะห์ภาพถ่ายดาวเทียมด้วย AI เพื่อประเมินพื้นที่หลังคา กำลังผลิตไฟฟ้า และระยะเวลาคืนทุน ก่อนตัดสินใจติดตั้งโซลาร์เซลล์จริง</p>
+        <div class="credits">
+          <div><b>จัดทำโดย</b> นางสาวจริยา แสงโทโพธิ์ และ นางสาวปพัชญา เมินธนู</div>
+          <div><b>อาจารย์ที่ปรึกษา</b> ผศ.ดร.ศุภชัย วรพจน์พิศุทธิ์</div>
+          <div><b>ภาควิชา</b> วิศวกรรมไฟฟ้า คณะวิศวกรรมศาสตร์ มหาวิทยาลัยธรรมศาสตร์</div>
+        </div>
+        <div class="cta-row">
+          <a href="#results" class="btn btn-primary">ดูผลการทดลอง →</a>
+          <a href="#design" class="btn btn-ghost">วิธีการทำงานของระบบ</a>
+        </div>
+      </div>
+      <div class="scan-box" aria-hidden="true">
+        <div class="roof-grid" id="roofGrid"></div>
+        <div class="scan-line"></div>
+        <div class="scan-label2">YOLOv8 · instance segmentation</div>
+        <div class="scan-label">พิกัด 14.059664, 100.61060</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="wrap two-col">
+      <div>
+        <div class="kicker">01 — บทนำ</div>
+        <h2 class="sec-title">การเติบโตของโซลาร์รูฟท็อปในไทย มาพร้อมช่องว่างข้อมูลของผู้ใช้ไฟรายเล็ก</h2>
+        <p class="sec-lead">
+          การผลิตไฟฟ้าจากพลังงานแสงอาทิตย์บนหลังคา (Solar Rooftop) เติบโตอย่างต่อเนื่อง โดยในปี พ.ศ. 2568 มีกำลังการผลิตติดตั้งสะสมถึง 6,510 เมกะวัตต์ ซึ่งเพิ่มขึ้นจากปี พ.ศ. 2567 คิดเป็น 92.5% ส่วนหนึ่งมาจากนโยบายรับซื้อไฟฟ้าจากพลังงานแสงอาทิตย์ (Solar PV Rooftop) และมาตรการลดหย่อนภาษีจากการติดตั้งโซลาร์รูฟท็อปได้สูงสุด 200,000 บาท
+        </p>
+        <p class="sec-lead">
+          อย่างไรก็ตาม อัตราการเติบโตนี้ยังคงเผชิญอุปสรรคเชิงระบบ คือการขาดระบบที่มีการเชื่อมโยงข้อมูลระหว่างภาคประชาชน ภาคธุรกิจ และภาครัฐบาล ทำให้การเพิ่มขึ้นของโซลาร์รูฟท็อปยังสร้างความท้าทายให้กับการไฟฟ้าในการบริหารจัดการโครงข่าย (Grid Management)
+        </p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">มูลค่าตลาดโซลาร์รูฟท็อปของพื้นที่ประเทศไทย (หน่วย: พันล้านบาท)</div>
+        <div class="bars" id="marketChart"></div>
+        <div class="chart-note">ที่มา: ประมาณการแนวโน้มตลาดโซลาร์รูฟท็อป พ.ศ. 2558–2568</div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="card-grid">
+        <div class="card">
+          <div class="num">FACTOR / 01</div>
+          <h4>ราคาแผงโซลาร์เซลล์ถูกลง</h4>
+          <p>สถานการณ์เทคโนโลยีในโลกเดินหน้าอย่างต่อเนื่อง ทำให้การติดตั้งโซลาร์รูฟท็อปจึงเป็นทางเลือกที่น่าสนใจ</p>
+        </div>
+        <div class="card">
+          <div class="num">FACTOR / 02</div>
+          <h4>มาตรการลดหย่อนภาษี</h4>
+          <p>มาตรการลดหย่อนภาษีเงินได้บุคคลธรรมดาจากการติดตั้งโซลาร์รูฟท็อปได้สูงสุดถึง 200,000 บาท</p>
+        </div>
+        <div class="card">
+          <div class="num">FACTOR / 03</div>
+          <h4>แหล่งเงินทุนดอกเบี้ยต่ำ</h4>
+          <p>มีสินเชื่อดอกเบี้ยต่ำจากธนาคารต่าง ๆ สำหรับการติดตั้งโซลาร์รูฟท็อป</p>
+        </div>
+        <div class="card">
+          <div class="num">FACTOR / 04</div>
+          <h4>นโยบายภาครัฐเอื้อการติดตั้ง</h4>
+          <p>มีแนวทางปรับปรุงกฎหมายเพื่อเอื้อให้การติดตั้งโซลาร์รูฟท็อปสำหรับใช้เองได้สะดวกมากขึ้น</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OBJECTIVE -->
+  <section id="objective" class="alt">
+    <div class="wrap">
+      <div class="kicker">02 — วัตถุประสงค์</div>
+      <h2 class="sec-title">สร้างเครื่องมือประเมินศักยภาพที่เชื่อมโยงผู้มีส่วนได้ส่วนเสียทุกฝ่าย</h2>
+      <p class="sec-lead">ระบบถูกออกแบบให้ตอบโจทย์ผู้ใช้งานสี่กลุ่มหลัก ตั้งแต่เจ้าของบ้านทั่วไปไปจนถึงหน่วยงานภาครัฐและการไฟฟ้า</p>
+      <div class="stake-grid">
+        <div class="stake">
+          <h4>ภาคประชาชน</h4>
+          <p>ช่วยประเมินความคุ้มค่าก่อนตัดสินใจติดตั้ง และเสริมความเข้าใจในการติดตั้งโซลาร์เซลล์</p>
+        </div>
+        <div class="stake">
+          <h4>ภาคธุรกิจ</h4>
+          <p>ลดต้นทุนในการหาลูกค้าและประหยัดเวลาลงพื้นที่สำรวจหน้างานจริง</p>
+        </div>
+        <div class="stake">
+          <h4>ภาคการไฟฟ้า</h4>
+          <p>ประมาณการผลิตไฟฟ้าและการติดตั้งโซลาร์รูฟท็อปจากภาพถ่ายดาวเทียม</p>
+        </div>
+        <div class="stake">
+          <h4>ภาครัฐบาล</h4>
+          <p>เป็นฐานข้อมูลเบื้องต้นที่ใช้กำหนดนโยบายส่งเสริมพลังงานของประเทศ</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN -->
+  <section id="design">
+    <div class="wrap">
+      <div class="kicker">03 — การออกแบบระบบ</div>
+      <h2 class="sec-title">LINE + ภาพถ่ายดาวเทียม + AI = ระบบวิเคราะห์หลังคาอัตโนมัติ</h2>
+      <p class="sec-lead">ระบบทำงานเป็น 3 ชั้นต่อเนื่องกัน ตั้งแต่รับตำแหน่งจากผู้ใช้ ไปจนถึงคำนวณผลลัพธ์ที่เข้าใจง่าย</p>
+
+      <div class="pipeline">
+        <div class="pl-step">
+          <div class="pl-num">01</div>
+          <h4>Input Layer</h4>
+          <p>รับข้อมูลพิกัดตำแหน่งจากผู้ใช้งานผ่านแอปพลิเคชัน LINE</p>
+        </div>
+        <div class="pl-step">
+          <div class="pl-num">02</div>
+          <h4>Processing Layer</h4>
+          <p>วิเคราะห์พื้นที่หลังคาจากภาพถ่ายดาวเทียมโดยดึงข้อมูลจาก Google Earth แปลงเป็นโมเดล YOLO (version 8) ซึ่งใช้เทคนิค instance segmentation นำมาประยุกต์ใช้ในการตรวจจับและจำแนกพื้นที่ของหลังคา</p>
+        </div>
+        <div class="pl-step">
+          <div class="pl-num">03</div>
+          <h4>Calculation Layer</h4>
+          <p>ประมวลผลพื้นที่ที่ใช้งานได้จริง ทำงานโดยมีฐานข้อมูลรองรับข้อมูลจากหลังคา จึงทำการวิเคราะห์หาค่าความสูงของผู้ใช้งานเป็นลำดับต่อไป</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTING -->
+  <section id="testing" class="alt">
+    <div class="wrap">
+      <div class="kicker">04 — การทดสอบระบบ</div>
+      <h2 class="sec-title">ทดสอบใช้งานจริงผ่านแอปพลิเคชันไลน์ LINE Official: SunJaa</h2>
+      <p class="sec-lead">ทดสอบระบบโดยวิเคราะห์พื้นที่ติดตั้งโซลาร์เซลล์ ณ พิกัด 14.059664, 100.61060 (หมู่บ้านกฤษดาแกรนด์พาร์ค)</p>
+
+      <div class="flow">
+        <div class="flow-step"><b>ขั้นตอนที่ 1</b>ผู้ใช้งานส่งตำแหน่งที่ตั้งผ่าน LINE</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><b>ขั้นตอนที่ 2</b>ระบบดึงข้อมูลภาพถ่ายพื้นที่</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><b>ขั้นตอนที่ 3</b>ระบบวิเคราะห์พื้นที่หลังคา</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><b>ขั้นตอนที่ 4</b>ระบบส่งผลลัพธ์กลับให้ผู้ใช้งาน</div>
+      </div>
+
+      <div class="phone-note">
+        <span class="tag">LINE OA</span>
+        <div>
+          ผู้ใช้งานส่ง <b style="color:var(--paper)">ตำแหน่งที่ตั้ง</b> ให้ระบบวิเคราะห์ จากนั้นระบบจะประเมินพื้นที่หลังคาจากภาพถ่ายดาวเทียม พร้อมแจ้งผล <b style="color:var(--paper)">พลังงานไฟฟ้าที่ผลิตได้ต่อปี</b>, <b style="color:var(--paper)">ความคุ้มค่าและระยะเวลาคืนทุน</b>, ข้อมูลการซื้อ–ขายคาร์บอนเครดิต และคำนวณส่วนลดหย่อนภาษีให้โดยอัตโนมัติ
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EFFICIENCY ASSUMPTIONS -->
+  <section id="assumptions">
+    <div class="wrap">
+      <div class="kicker">05 — การประเมินประสิทธิภาพของระบบ</div>
+      <h2 class="sec-title">เทียบผลจากแอปพลิเคชัน LINE กับโปรแกรม PVsyst ด้วยชุดสมมติฐานเดียวกัน</h2>
+      <p class="sec-lead">นำข้อมูลที่ได้จากการทดสอบระบบบนแอปพลิเคชัน LINE มาใช้เปรียบเทียบกับข้อมูลที่ได้จากโปรแกรม PVsyst โดยกำหนดสมมติฐานด้านวิศวกรรมและเศรษฐศาสตร์ดังนี้</p>
+
+      <p class="table-title">ตารางที่ 1 — สมมติฐานการคำนวณข้อมูลประกอบการคำนวณ (ด้านวิศวกรรม)</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>รายการ</th><th>ค่าที่ใช้</th></tr></thead>
+          <tbody>
+            <tr><td>ชนิดของแผงโซลาร์เซลล์</td><td class="mono-val">Monocrystalline</td></tr>
+            <tr><td>ขนาดของแผงโซลาร์เซลล์</td><td class="mono-val">1.096 × 2.384 m</td></tr>
+            <tr><td>พิกัดกำลังของแผงโซลาร์เซลล์</td><td class="mono-val">550 Wp/unit</td></tr>
+            <tr><td>มุมเอียงของแผง (azimuth)</td><td class="mono-val">15 องศา</td></tr>
+            <tr><td>ทิศการวางแผง (tilt angle)</td><td class="mono-val">0 องศา</td></tr>
+            <tr><td>ประสิทธิภาพของอินเวอร์เตอร์</td><td class="mono-val">97%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="table-title">ตารางที่ 2 — สมมติฐานในการวิเคราะห์ทางเศรษฐศาสตร์</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>รายการ</th><th>ค่าที่ใช้</th></tr></thead>
+          <tbody>
+            <tr><td>อายุโครงการ</td><td class="mono-val">25 ปี</td></tr>
+            <tr><td>ราคาแผงโซลาร์เซลล์</td><td class="mono-val">5,000 บาท/แผง</td></tr>
+            <tr><td>ราคาอินเวอร์เตอร์</td><td class="mono-val">5,100 บาท/หน่วย</td></tr>
+            <tr><td>ค่าติดตั้งระบบ</td><td class="mono-val">25,000 บาท/kW</td></tr>
+            <tr><td>อัตราเสื่อมของแผงโซลาร์เซลล์</td><td class="mono-val">0.5% ต่อปี</td></tr>
+            <tr><td>อัตราการขายคืนไฟฟ้า</td><td class="mono-val">2.2 บาท/หน่วย</td></tr>
+            <tr><td>อัตราเงินเฟ้อ</td><td class="mono-val">3% ต่อปี</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="alt">
+    <div class="wrap">
+      <div class="kicker">06 — ผลการทดลอง</div>
+      <h2 class="sec-title">ตารางที่ 3 — เปรียบเทียบประสิทธิภาพกับรายงานผลจากโปรแกรม PVsyst</h2>
+      <p class="sec-lead">จากการทดสอบประสิทธิภาพของระบบประเมินศักยภาพโซลาร์รูฟท็อปในการวิเคราะห์พื้นที่ติดตั้งเซลล์แสงอาทิตย์ ณ พิกัดทดสอบ ได้ผลลัพธ์เทียบกับรายงานจากโปรแกรม PVsyst ดังนี้</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>หัวข้อเปรียบเทียบ</th><th>ค่าจาก PVsyst</th><th>ค่าจาก LINE bot</th><th>% ความคลาดเคลื่อน</th></tr></thead>
+          <tbody>
+            <tr><td>จำนวนแผง</td><td class="mono-val">44 แผง</td><td class="mono-val">40 แผง</td><td class="diff-pos">9.09%</td></tr>
+            <tr><td>ขนาดระบบ</td><td class="mono-val">24.20 kWp</td><td class="mono-val">22.00 kWp</td><td class="diff-pos">9.09%</td></tr>
+            <tr><td>Performance Ratio</td><td class="mono-val">75.45%</td><td class="mono-val">75%</td><td class="diff-low">0.60%</td></tr>
+            <tr><td>การผลิตไฟฟ้า</td><td class="mono-val">36.01 MWh/ปี</td><td class="mono-val">27.70 MWh/ปี</td><td class="diff-pos">23.08%</td></tr>
+            <tr><td>ขนาด Inverter</td><td class="mono-val">15.40 kW</td><td class="mono-val">18.30 kW</td><td class="diff-pos">18.83%</td></tr>
+            <tr><td>การลด CO₂ รายปี</td><td class="mono-val">15.52 tCO₂/ปี</td><td class="mono-val">13.85 tCO₂/ปี</td><td class="diff-pos">10.76%</td></tr>
+            <tr><td>ระยะเวลาคืนทุน</td><td class="mono-val">9.8 ปี</td><td class="mono-val">8 ปี</td><td class="diff-pos">18.37%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="result-strip">
+        <div class="result-cell"><div class="val">0.60%</div><div class="lab">ความคลาดเคลื่อนต่ำที่สุด — Performance Ratio</div></div>
+        <div class="result-cell"><div class="val">23.08%</div><div class="lab">ความคลาดเคลื่อนสูงที่สุด — การผลิตไฟฟ้าต่อปี</div></div>
+        <div class="result-cell"><div class="val">0.85</div><div class="lab">ค่า Border Factor ที่ใช้ในการออกแบบ</div></div>
+        <div class="result-cell"><div class="val">40</div><div class="lab">จำนวนแผงที่ระบบ LINE bot ประเมินได้ (แผง)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section id="conclusion">
+    <div class="wrap">
+      <div class="kicker">07 — สรุปผลการทดลอง</div>
+      <div class="two-col">
+        <div>
+          <h2 class="sec-title" style="max-width:none;">เครื่องมือคัดกรองเบื้องต้นที่แม่นยำเพียงพอสำหรับการตัดสินใจ ไม่ใช่การออกแบบเชิงวิศวกรรม</h2>
+        </div>
+        <div>
+          <p class="sec-lead" style="margin-top:0;">
+            ระบบประเมินศักยภาพโซลาร์รูฟท็อปสำหรับพื้นที่ประเทศไทย เหมาะสำหรับใช้เป็นเครื่องมือคัดกรองและประเมินศักยภาพโครงการเบื้องต้นได้อย่างมีประสิทธิภาพ แต่ยังคงต้องมีการออกแบบรายละเอียดและตัดสินใจลงทุนจริงควรใช้ซอฟต์แวร์วิศวกรรมเฉพาะทางงานร่วมด้วย
+          </p>
+          <p class="sec-lead">
+            ความคลาดเคลื่อนที่เกิดขึ้นไม่ได้มีความผิดพลาดของระบบ แต่เป็นผลมาจากการประยุกต์ใช้พารามิเตอร์ Border Factor (0.85) เพื่อเผื่อพื้นที่ระบายอากาศและทางเดินซ่อมบำรุง ซึ่งเป็นปัจจัยสำคัญในการออกแบบวิศวกรรมหน้างานจริงที่ซอฟต์แวร์แรร์ล้อมทั่วไปมักไม่นำมาเกี่ยวข้อง แสดงให้เห็นว่าระบบมีแนวโน้มการคำนวณที่ยึดโยงกับการติดตั้งจริง
+          </p>
+        </div>
+      </div>
+
+      <div class="future-box">
+        <b>แนวทางการพัฒนาในอนาคต —</b> สำหรับแนวทางการพัฒนาในอนาคต ควรต่อยอดด้วยการวิเคราะห์หมุนเวียนและติดตามหลังคาการตรวจจับเงาสิ่งกีดขวาง เพื่อยกระดับความแม่นยำให้ครอบคลุมยิ่งขึ้น ระบบประเมินศักยภาพโซลาร์รูฟท็อปไม่ได้เป็นเพียงเครื่องมือช่วยภาคประชาชนในการตัดสินใจ แต่ยังทำหน้าที่เป็นตัวกลางที่พร้อมเชื่อมโยงฐานข้อมูลการผลิตไฟฟ้าภาคครัวเรือนเข้าสู่กลไกตลาดคาร์บอนเครดิต สำหรับรายย่อยซึ่งสอดคล้องกับแผนพัฒนากำลังผลิตไฟฟ้าของประเทศและเป้าหมายความเป็นกลางทางคาร์บอน (Net Zero) อย่างเป็นรูปธรรม
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFIT -->
+  <section id="benefit" class="alt">
+    <div class="wrap">
+      <div class="kicker">08 — ประโยชน์ที่คาดว่าจะได้รับ</div>
+      <h2 class="sec-title">ผลลัพธ์ที่ส่งต่อคุณค่าให้ผู้มีส่วนได้ส่วนเสียทั้งระบบพลังงาน</h2>
+      <div class="benefit-list">
+        <div class="benefit-row">
+          <div class="b-num">01</div>
+          <div>
+            <h4>ภาคประชาชน</h4>
+            <p>ช่วยให้ประชาชนสามารถเข้าถึงข้อมูลเกี่ยวกับการติดตั้งโซลาร์รูฟท็อปได้ง่ายมากขึ้น และช่วยประเมินศักยภาพในการติดตั้งโซลาร์เซลล์</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="b-num">02</div>
+          <div>
+            <h4>ภาคธุรกิจ</h4>
+            <p>ช่วยลดต้นทุนในการแสวงหาลูกค้ารายย่อยของผู้ประกอบการ และช่วยภาระค่าใช้จ่ายขององค์กรในการจัดส่งทีมวิศวกรหรือช่างเทคนิคลงพื้นที่สำรวจหน้างานเบื้องต้น</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="b-num">03</div>
+          <div>
+            <h4>ภาคหน่วยงานคาร์บอนเครดิต</h4>
+            <p>สนับสนุนกลไกการรวบรวมข้อมูลคาร์บอนเครดิตที่กระจายอยู่ในภาคครัวเรือน เพื่อนำเข้าสู่ตลาดซื้อขายคาร์บอนเครดิตอย่างเป็นรูปธรรม</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="b-num">04</div>
+          <div>
+            <h4>ภาครัฐบาล</h4>
+            <p>ช่วยสร้างฐานข้อมูลเชิงพื้นที่ในการควบคุมสิ่งเป็นฐานข้อมูลสำคัญที่ภาครัฐสามารถนำไปใช้เสนอสถานการณ์ เพื่อวางแผนและกำหนดนโยบายด้านพลังงานระดับประเทศได้อย่างมีประสิทธิภาพ</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="b-num">05</div>
+          <div>
+            <h4>ภาคหน่วยงานการไฟฟ้า</h4>
+            <p>ช่วยให้หน่วยงานการไฟฟ้าสามารถพยากรณ์ปริมาณการผลิตและใช้ไฟฟ้าของประชาชน เพื่อวางแผนเสริมภาพรวมของระบบจำหน่ายไฟฟ้า</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-col">
+      <b>ระบบประเมินศักยภาพโซลาร์รูฟท็อปสำหรับพื้นที่ประเทศไทย</b>
+      Solar Rooftop Potential Assessment System for Thailand — โครงงานภาควิชาวิศวกรรมไฟฟ้า คณะวิศวกรรมศาสตร์ มหาวิทยาลัยธรรมศาสตร์
+    </div>
+    <div class="foot-col">
+      <b>จัดทำโดย</b>
+      นางสาวจริยา แสงโทโพธิ์, นางสาวปพัชญา เมินธนู<br>
+      อาจารย์ที่ปรึกษา ผศ.ดร.ศุภชัย วรพจน์พิศุทธิ์
+    </div>
+    <div class="foot-col">
+      <a href="#top" class="back-top">↑ กลับขึ้นด้านบน</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Build market growth chart
+  (function(){
+    var years = [2558,2559,2560,2561,2562,2563,2564,2565,2566,2567,2568];
+    var values = [1559,3592,5557,7514,10498,12952,24664,44052,57231,80623,87268];
+    var max = Math.max.apply(null, values);
+    var container = document.getElementById('marketChart');
+    years.forEach(function(y, i){
+      var col = document.createElement('div');
+      col.className = 'bar-col';
+      var bar = document.createElement('div');
+      bar.className = 'bar';
+      var h = Math.max(4, Math.round((values[i]/max)*100));
+      bar.style.height = h + '%';
+      bar.title = y + ' : ' + values[i].toLocaleString() + ' พันล้านบาท';
+      var yr = document.createElement('div');
+      yr.className = 'bar-yr';
+      yr.textContent = "'" + String(y).slice(2);
+      col.appendChild(bar);
+      col.appendChild(yr);
+      container.appendChild(col);
+    });
+  })();
+
+  // Build roof scan grid with randomized detected cells
+  (function(){
+    var grid = document.getElementById('roofGrid');
+    if(!grid) return;
+    var total = 64;
+    for(var i=0;i<total;i++){
+      var cell = document.createElement('div');
+      cell.className = 'cell';
+      grid.appendChild(cell);
+    }
+    var cells = grid.querySelectorAll('.cell');
+    function paint(){
+      cells.forEach(function(c){ c.className = 'cell'; });
+      var hits = 10 + Math.floor(Math.random()*8);
+      var used = new Set();
+      for(var i=0;i<hits;i++){
+        var idx = Math.floor(Math.random()*total);
+        if(used.has(idx)) continue;
+        used.add(idx);
+        cells[idx].classList.add(Math.random() > 0.4 ? 'hit' : 'hit2');
+      }
+    }
+    paint();
+    setInterval(paint, 3600);
+  })();
+</script>
+
+</body>
+</html>
