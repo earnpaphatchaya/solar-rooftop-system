@@ -425,7 +425,7 @@
       </div>
       <div class="chart-card">
         <div class="chart-title">มูลค่าตลาดโซลาร์รูฟท็อปของพื้นที่ประเทศไทย (หน่วย: พันล้านบาท)</div>
-        <div class="bars" id="marketChart"></div>
+        <img src="graph.png" alt="Market Growth Graph" style="width:100%; height:auto; display:block; border-radius:4px;">
         <div class="chart-note">ที่มา: ประมาณการแนวโน้มตลาดโซลาร์รูฟท็อป พ.ศ. 2558–2568</div>
       </div>
     </div>
@@ -689,29 +689,6 @@
 </footer>
 
 <script>
-  // Build market growth chart
-  (function(){
-    var years = [2558,2559,2560,2561,2562,2563,2564,2565,2566,2567,2568];
-    var values = [1559,3592,5557,7514,10498,12952,24664,44052,57231,80623,87268];
-    var max = Math.max.apply(null, values);
-    var container = document.getElementById('marketChart');
-    years.forEach(function(y, i){
-      var col = document.createElement('div');
-      col.className = 'bar-col';
-      var bar = document.createElement('div');
-      bar.className = 'bar';
-      var h = Math.max(4, Math.round((values[i]/max)*100));
-      bar.style.height = h + '%';
-      bar.title = y + ' : ' + values[i].toLocaleString() + ' พันล้านบาท';
-      var yr = document.createElement('div');
-      yr.className = 'bar-yr';
-      yr.textContent = "'" + String(y).slice(2);
-      col.appendChild(bar);
-      col.appendChild(yr);
-      container.appendChild(col);
-    });
-  })();
-
   // Build roof scan grid with randomized detected cells
   (function(){
     var grid = document.getElementById('roofGrid');
@@ -731,7 +708,7 @@
         var idx = Math.floor(Math.random()*total);
         if(used.has(idx)) continue;
         used.add(idx);
-      				cells[idx].classList.add(Math.random() > 0.4 ? 'hit' : 'hit2');
+        cells[idx].classList.add(Math.random() > 0.4 ? 'hit' : 'hit2');
       }
     }
     paint();
@@ -741,4 +718,3 @@
 
 </body>
 </html>
-
