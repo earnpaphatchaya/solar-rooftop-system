@@ -33,7 +33,6 @@
     margin:0;
     background:var(--bg);
     color:var(--text);
-    /* เปลี่ยนฟอนต์หลักเป็น Sarabun */
     font-family:'Sarabun', sans-serif;
     font-weight:400;
     line-height:1.75;
@@ -87,7 +86,6 @@
     transition:color .2s, border-color .2s;
   }
   nav.links a:hover{ color:var(--gold); border-color:var(--gold); }
-  .nav-toggle{ display:none; }
   @media (max-width:900px){
     nav.links{ display:none; }
   }
@@ -164,16 +162,6 @@
     overflow:hidden;
     box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
   }
-  .roof-grid{
-    position:absolute; inset:0;
-    display:grid; grid-template-columns:repeat(8,1fr); grid-template-rows:repeat(8,1fr);
-  }
-  .roof-grid .cell{
-    border:1px solid rgba(0, 0, 0, 0.08);
-    transition:background .4s ease;
-  }
-  .roof-grid .cell.hit{ background:rgba(25, 154, 142, 0.4); }
-  .roof-grid .cell.hit2{ background:rgba(229, 159, 0, 0.35); }
   .scan-line{
     position:absolute; left:0; right:0; height:2px;
     background:linear-gradient(90deg, transparent, var(--gold), transparent);
@@ -220,15 +208,6 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.02);
   }
   .chart-title{ font-size:13px; font-weight:600; color:var(--text); margin-bottom:18px; letter-spacing:0.02em;}
-  .bars{ display:flex; align-items:flex-end; gap:8px; height:200px; }
-  .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
-  .bar{
-    width:100%; max-width:26px; border-radius:2px 2px 0 0;
-    background:linear-gradient(180deg, var(--gold), var(--amber));
-    position:relative;
-  }
-  .bar-col:nth-child(-n+6) .bar{ background:linear-gradient(180deg, var(--teal), #168177); }
-  .bar-yr{ margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--text-dimmer); }
   .chart-note{ margin-top:14px; font-size:12px; color:var(--text-dimmer); }
 
   /* ---------- FACTOR / OBJECTIVE CARDS ---------- */
@@ -524,9 +503,16 @@
 
   <section id="testing" class="alt">
     <div class="wrap">
-      <div class="kicker">04 — การทดสอบระบบ</div>
-      <h2 class="sec-title">ทดสอบใช้งานจริงผ่านแอปพลิเคชันไลน์ LINE Official: SunJaa</h2>
-      <p class="sec-lead">ทดสอบระบบโดยวิเคราะห์พื้นที่ติดตั้งโซลาร์เซลล์ ณ พิกัด 14.059664, 100.61060 (หมู่บ้านกฤษดาแกรนด์พาร์ค)</p>
+      <div class="two-col" style="align-items: center; margin-bottom: 40px;">
+        <div>
+          <div class="kicker">04 — การทดสอบระบบ</div>
+          <h2 class="sec-title">ทดสอบใช้งานจริงผ่านแอปพลิเคชันไลน์ LINE Official: SunJaa</h2>
+          <p class="sec-lead">ทดสอบระบบโดยวิเคราะห์พื้นที่ติดตั้งโซลาร์เซลล์ ณ พิกัด 14.059664, 100.61060 (หมู่บ้านกฤษดาแกรนด์พาร์ค)</p>
+        </div>
+        <div>
+          <img src="testing-pic.jpg" alt="ภาพประกอบการทดสอบระบบ" style="width:100%; height:auto; border-radius:4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        </div>
+      </div>
 
       <div class="flow">
         <div class="flow-step"><b>ขั้นตอนที่ 1</b>ผู้ใช้งานส่งตำแหน่งที่ตั้งผ่าน LINE</div>
