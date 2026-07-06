@@ -110,6 +110,51 @@
     white-space: nowrap;
   }
   nav.links a:hover{ color:var(--gold); border-color:var(--gold); }
+
+  /* ---------- NAV CTA (ปุ่มทดลองใช้งานฟรี) ---------- */
+  .nav-cta-wrap{
+    display:flex; align-items:center; flex-shrink:0; margin-left:20px;
+  }
+  .nav-cta{
+    position:relative;
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Chakra Petch',sans-serif; font-weight:700; font-size:14.5px;
+    letter-spacing:0.03em;
+    color:#FFFFFF;
+    background:linear-gradient(135deg, var(--gold), var(--amber));
+    padding:11px 22px;
+    border-radius:99px;
+    text-decoration:none;
+    white-space:nowrap;
+    box-shadow:0 4px 14px rgba(229,159,0,0.38);
+    transition:transform .2s ease, box-shadow .2s ease;
+    isolation:isolate;
+    overflow:hidden;
+  }
+  .nav-cta::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:99px;
+    box-shadow:0 0 0 0 rgba(229,159,0,0.55);
+    animation:nav-cta-pulse 2.4s ease-out infinite;
+    z-index:-1;
+  }
+  @keyframes nav-cta-pulse{
+    0%{ box-shadow:0 0 0 0 rgba(229,159,0,0.45); }
+    70%{ box-shadow:0 0 0 12px rgba(229,159,0,0); }
+    100%{ box-shadow:0 0 0 0 rgba(229,159,0,0); }
+  }
+  .nav-cta:hover{
+    transform:translateY(-2px) scale(1.03);
+    box-shadow:0 8px 22px rgba(229,159,0,0.5);
+    background:linear-gradient(135deg, var(--amber), var(--gold));
+  }
+  .nav-cta .spark{
+    font-size:15px; line-height:1;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .nav-cta::before{ animation:none; }
+  }
   
   /* Responsive Nav - แสดงแนวนอนเลื่อนปัดได้ในมือถือ */
   @media (max-width:900px){
@@ -133,6 +178,12 @@
     nav.links {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+    .nav-cta-wrap{
+      width:100%; margin-left:0;
+    }
+    .nav-cta{
+      width:100%; justify-content:center;
     }
   }
 
@@ -438,6 +489,10 @@
       <a href="#results">ผลการทดลอง</a>
       <a href="#benefit">ประโยชน์ที่ได้รับ</a>
     </nav>
+
+    <div class="nav-cta-wrap">
+      <a href="#try-now" class="nav-cta"><span class="spark">⚡</span>ทดลองใช้งานฟรี</a>
+    </div>
   </div>
 </header>
 
