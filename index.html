@@ -65,6 +65,7 @@
     display:flex; align-items:center; justify-content:space-between;
     padding:14px 32px;
     max-width:1180px; margin:0 auto;
+    position: relative;
   }
   .brand{
     display:flex; align-items:center; gap:10px;
@@ -72,12 +73,14 @@
     font-weight:700; font-size:18px; letter-spacing:0.06em;
     text-decoration:none;
     color:var(--paper);
+    z-index: 60; /* ให้อยู่เหนือเมนูตอนเปิด */
   }
   .brand .dot{
     width:10px; height:10px; border-radius:50%;
     background:var(--gold);
     box-shadow:0 0 10px 2px rgba(229, 159, 0, 0.4);
   }
+  
   nav.links{ display:flex; gap:28px; font-size:13.5px; font-weight:500;}
   nav.links a{
     text-decoration:none; color:var(--text-dim);
@@ -86,8 +89,70 @@
     transition:color .2s, border-color .2s;
   }
   nav.links a:hover{ color:var(--gold); border-color:var(--gold); }
+  
+  /* Mobile Menu Button */
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 0;
+    z-index: 60;
+  }
+  .mobile-menu-btn span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--paper);
+    margin-bottom: 5px;
+    transition: 0.3s;
+    border-radius: 2px;
+  }
+  .mobile-menu-btn span:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Responsive Nav */
   @media (max-width:900px){
-    nav.links{ display:none; }
+    .mobile-menu-btn { 
+      display: block; 
+    }
+    nav.links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 253, 244, 0.98);
+      backdrop-filter: blur(10px);
+      flex-direction: column;
+      gap: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      border-bottom: 1px solid transparent;
+      box-shadow: 0 10px 15px -10px rgba(0,0,0,0.05);
+    }
+    nav.links.active {
+      max-height: 400px;
+      border-bottom-color: var(--panel-line);
+    }
+    nav.links a {
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--panel-line);
+    }
+    nav.links a:last-child {
+      border-bottom: none;
+    }
+    /* Hamburger to X animation */
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
   }
 
   /* ---------- HERO ---------- */
@@ -349,7 +414,14 @@
 <header class="site-nav">
   <div class="nav-inner">
     <a href="#top" class="brand"><span class="dot"></span>SunJaa · Project</a>
-    <nav class="links">
+    
+    <button class="mobile-menu-btn" aria-label="Toggle menu" id="mobile-menu-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <nav class="links" id="nav-links">
       <a href="#intro">บทนำ</a>
       <a href="#objective">วัตถุประสงค์</a>
       <a href="#design">การออกแบบระบบ</a>
@@ -382,9 +454,7 @@
       
       <div class="scan-box" aria-hidden="true">
         <img src="map.jpg" alt="Satellite Map" style="position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.75;">
-        
         <div class="scan-line"></div>
-        
       </div>
       
     </div>
@@ -403,7 +473,6 @@
         </p>
       </div>
       
-      <!-- ส่วนแสดงกราฟพร้อมข้อมูลหัวข้อและแหล่งที่มาด้านข้างข้อความบทนำ -->
       <div>
         <h3 style="font-size: 14px; font-weight: 600; color: var(--paper); margin-bottom: 12px; font-family: 'Chakra Petch', sans-serif; letter-spacing: 0.02em;">แผนภูมิแสดงมูลค่าตลาดโซลาร์รูฟท็อปของพื้นที่ประเทศไทย</h3>
         <img src="graph.png" alt="แผนภูมิแสดงมูลค่าตลาดโซลาร์รูฟท็อปของพื้นที่ประเทศไทย" style="width:100%; height:auto; border-radius:4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 10px;">
@@ -415,9 +484,8 @@
       <div class="card-grid">
         <div class="card">
           <div class="num">FACTOR / 01</div>
-          <h4>สถานการณ์พลังงานโลก</h4>
-          <p>สถานการณ์พลังงานโลกและต้นทุนเชื้อเพลิงที่เพิ่มขึ้นทำให้การติดโซลาร์เซลล์จึงเป็นทางเลือกที่น่าสนใจ
-</p>
+          <h4>ราคาแผงโซลาร์เซลล์ถูกลง</h4>
+          <p>สถานการณ์เทคโนโลยีในโลกเดินหน้าอย่างต่อเนื่อง ทำให้การติดตั้งโซลาร์รูฟท็อปจึงเป็นทางเลือกที่น่าสนใจ</p>
         </div>
         <div class="card">
           <div class="num">FACTOR / 02</div>
@@ -680,7 +748,6 @@
         <p style="margin-top: 14px; font-size: 14px; color: var(--text-dim); font-weight: 500; letter-spacing: 0.02em;">รางวัลรองชนะเลิศอันดับ 1</p>
         <p style="margin-top: 14px; font-size: 14px; color: var(--text-dim); font-weight: 500; letter-spacing: 0.02em;">โครงการ IEEE PES 5-Minute Student Project Pitch (5MSPP) Competition 2026</p>
       </div>
-      </div>
       
     </div>
   </section>
@@ -705,7 +772,30 @@
 </footer>
 
 <script>
-  // Build roof scan grid with randomized detected cells
+  // Mobile Menu Navigation Script
+  (function(){
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    const navItems = navLinks.querySelectorAll('a');
+
+    if(menuBtn && navLinks) {
+      // เปิด-ปิด เมนูเมื่อกดปุ่มแฮมเบอร์เกอร์
+      menuBtn.addEventListener('click', function() {
+        menuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+
+      // ปิดเมนูอัตโนมัติเมื่อผู้ใช้กดเลือกลิงก์ใดลิงก์หนึ่ง
+      navItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          menuBtn.classList.remove('active');
+          navLinks.classList.remove('active');
+        });
+      });
+    }
+  })();
+
+  // Build roof scan grid with randomized detected cells (Original Code)
   (function(){
     var grid = document.getElementById('roofGrid');
     if(!grid) return;
